@@ -1,0 +1,69 @@
+<div class="page-bg chat-page">
+  <div class="chat-container">
+    <div class="chat-card">
+
+      <!-- Pantalla de nickname -->
+      @if (!nicknameListo) {
+        <div class="chat-nickname-screen">
+          <h2 class="chat-titulo">Chat <i class="ti ti-messages"></i></h2>
+          <p>Elegí un nickname para entrar</p>
+          <input
+            class="chat-input"
+            type="text"
+            placeholder="Tu nickname..."
+            [(ngModel)]="nicknameTemporal"
+            (keyup.enter)="confirmarNickname()">
+
+            <button
+              class="chat-btn-entrar"
+              (click)="confirmarNickname()"
+              [disabled]="!nicknameTemporal.trim()">
+              Entrar
+            </button>
+        </div>
+      }
+
+      <!-- Chat -->
+      @if (nicknameListo) {
+        <div class="chat-header">
+          <button class="chat-volver" (click)="volverNickname()">← Volver</button>
+          <h2 class="chat-titulo">Chat <i class="ti ti-messages"></i></h2>
+          <span class="chat-nick-actual"><i class="ti ti-user"></i> {{ nickname }}</span>
+        </div>
+
+        <div class="chat-mensajes" #mensajesContainer>
+          @for (msg of mensajes; track msg.id) {
+            <div class="chat-mensaje" [class.mio]="esMio(msg)" [class.otro]="!esMio(msg)">
+              <span class="chat-nombre">{{ msg.nickname }}</span>
+              <div class="chat-burbuja">{{ msg.mensaje }}</div>
+              <span class="chat-hora">{{ formatearHora(msg.created_at) }}</span>
+            </div>
+          }
+        </div>
+
+        <div class="chat-input-container">
+          <input
+            #mensajeInput
+            class="chat-input"
+            type="text"
+            placeholder="Escribí un mensaje..."
+            [(ngModel)]="nuevoMensaje"
+            (keyup.enter)="enviarMensaje()"
+            [disabled]="cargando">
+          <button
+            class="chat-btn-enviar"
+            (click)="enviarMensaje()"
+            [disabled]="cargando || !nuevoMensaje.trim()">
+            ➤
+          </button>
+        </div>
+        <div class="chat-btn-basura">
+        @if (nickname === 'tizza') {
+          <button class="chat-btn-limpiar" (click)="limpiarChat()"><i class="ti ti-trash"></i></button>
+        }
+      </div>
+      }
+
+    </div>
+  </div>
+</div>
