@@ -176,6 +176,13 @@
   color: #6c5eff;
   font-size: 16px;
 }
+.chat-nick-actual:hover {
+  color: #6c5eff;
+  text-shadow:
+  0 0 15px #fff,
+  0 0 50px #004b97,
+  0 0 70px #4d9dff;
+}
 .chat-btn-adjuntar {
   background: transparent;
   border: 0.5px solid rgba(255,255,255,0.2);
@@ -250,4 +257,39 @@
 .chat-btn-limpiar:hover {
   border-color: red;
   color: red;
+}
+.chat-usuarios {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0;
+  padding: 0 20px;
+}
+.chat-usuario-item {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255,255,255,0.07);
+  border: 0.5px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 12px 18px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.chat-usuario-item:hover {
+  background: rgba(81,0,255,0.2);
+  border-color: #5100ff;
+}
+.chat-sin-usuarios {
+  color: rgba(255,255,255,0.4);
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 16px;
 }

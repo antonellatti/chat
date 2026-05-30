@@ -5,29 +5,57 @@
       <!-- Pantalla de nickname -->
       @if (!nicknameListo) {
         <div class="chat-nickname-screen">
-          <h2 class="chat-titulo">Chateemos <i class="ti ti-messages"></i></h2>
+          <h2 class="chat-titulo">Chateemos <i class="ti ti-message-chatbot"></i></h2>
           <input
-            class="chat-input"
+            #nicknameInput class="chat-input"
             type="text"
             placeholder="Tu nombre..."
             [(ngModel)]="nicknameTemporal"
             (keyup.enter)="confirmarNickname()">
+          <button
+            class="chat-btn-entrar"
+            (click)="confirmarNickname()"
+            [disabled]="!nicknameTemporal.trim()">
+            Entrar
+          </button>
+        </div>
+      }
 
-            <button
-              class="chat-btn-entrar"
-              (click)="confirmarNickname()"
-              [disabled]="!nicknameTemporal.trim()">
-              Entrar
+      <!-- Vista Antonella: lista de usuarios -->
+      @if (nicknameListo && esAntonella && !usuarioSeleccionado) {
+        <div class="chat-header">
+          <button class="chat-volver" (click)="volverNickname()">← Volver</button>
+          <h2 class="chat-titulo">
+            Mi board 
+            <i class="ti ti-crystal-ball"></i>
+          </h2>
+          <span class="chat-nick-actual"><i class="ti ti-user"></i> {{ nickname }}</span>
+        </div>
+        <div class="chat-usuarios">
+          @if (usuarios.length === 0) {
+            <p class="chat-sin-usuarios">No hay mensajes <i class="ti ti-mail-off"></i></p>
+          }
+          @for (usuario of usuarios; track usuario) {
+            <button class="chat-usuario-item" (click)="seleccionarUsuario(usuario)">
+              <i class="ti ti-user"></i> {{ usuario }}
             </button>
+          }
+        </div>
+        <div class="chat-btn-basura">
+          <button class="chat-btn-limpiar" (click)="limpiarChat()"><i class="ti ti-trash"></i></button>
         </div>
       }
 
       <!-- Chat -->
-      @if (nicknameListo) {
+      @if (nicknameListo && (!esAntonella || usuarioSeleccionado)) {
         <div class="chat-header">
-          <button class="chat-volver" (click)="volverNickname()">← Volver</button>
-          <h2 class="chat-titulo">Chat <i class="ti ti-messages"></i></h2>
-          <span class="chat-nick-actual"><i class="ti ti-user"></i> {{ nickname }}</span>
+          @if (esAntonella) {
+            <button class="chat-volver" (click)="usuarioSeleccionado = ''">← Volver</button>
+          } @else {
+            <button class="chat-volver" (click)="volverNickname()">← Volver</button>
+          }
+          <h2 class="chat-titulo">Mensajes <i class="ti ti-mail"></i></h2>
+          <span class="chat-nick-actual"><i class="ti ti-user"></i> {{ esAntonella ? usuarioSeleccionado : nickname }}</span>
         </div>
 
         <div class="chat-mensajes" #mensajesContainer>
@@ -74,11 +102,12 @@
             ➤
           </button>
         </div>
-        <div class="chat-btn-basura">
-        @if (nickname === 'tizza') {
-          <button class="chat-btn-limpiar" (click)="limpiarChat()"><i class="ti ti-trash"></i></button>
+
+        @if (esAntonella) {
+          <div class="chat-btn-basura">
+            <button class="chat-btn-limpiar" (click)="limpiarChat()"><i class="ti ti-trash"></i></button>
+          </div>
         }
-      </div>
       }
 
     </div>
