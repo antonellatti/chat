@@ -5,12 +5,11 @@
       <!-- Pantalla de nickname -->
       @if (!nicknameListo) {
         <div class="chat-nickname-screen">
-          <h2 class="chat-titulo">Chat <i class="ti ti-messages"></i></h2>
-          <p>Elegí un nickname para entrar</p>
+          <h2 class="chat-titulo">Chateemos <i class="ti ti-messages"></i></h2>
           <input
             class="chat-input"
             type="text"
-            placeholder="Tu nickname..."
+            placeholder="Tu nombre..."
             [(ngModel)]="nicknameTemporal"
             (keyup.enter)="confirmarNickname()">
 
@@ -35,13 +34,31 @@
           @for (msg of mensajes; track msg.id) {
             <div class="chat-mensaje" [class.mio]="esMio(msg)" [class.otro]="!esMio(msg)">
               <span class="chat-nombre">{{ msg.nickname }}</span>
-              <div class="chat-burbuja">{{ msg.mensaje }}</div>
+              <div class="chat-burbuja">
+                @if (msg.archivo_url) {
+                  @if (msg.archivo_tipo?.startsWith('image/')) {
+                    <img [src]="msg.archivo_url" class="chat-img">
+                  } @else if (msg.archivo_tipo?.startsWith('video/')) {
+                    <video [src]="msg.archivo_url" controls class="chat-video"></video>
+                  } @else {
+                    <a [href]="msg.archivo_url" target="_blank" class="chat-archivo-link">
+                      <i class="ti ti-download"></i> Descargar archivo
+                    </a>
+                  }
+                } @else {
+                  {{ msg.mensaje }}
+                }
+              </div>
               <span class="chat-hora">{{ formatearHora(msg.created_at) }}</span>
             </div>
           }
         </div>
 
         <div class="chat-input-container">
+          <label class="chat-btn-adjuntar">
+            <i class="ti ti-paperclip"></i>
+            <input type="file" hidden (change)="subirArchivo($event)">
+          </label>
           <input
             #mensajeInput
             class="chat-input"

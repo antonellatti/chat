@@ -176,6 +176,44 @@
   color: #6c5eff;
   font-size: 16px;
 }
+.chat-btn-adjuntar {
+  background: transparent;
+  border: 0.5px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.6);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.chat-btn-adjuntar:hover {
+  border-color: #5100ff;
+  color: #fff;
+}
+.chat-img {
+  max-width: 250px;
+  max-height: 250px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.chat-video {
+  max-width: 250px;
+  border-radius: 12px;
+}
+.chat-archivo-link {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.chat-archivo-link:hover {
+  color: #5100ff;
+}
 .chat-volver {
   background: transparent;
   border: 0.5px solid rgba(255,255,255,0.3);

@@ -4,10 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { SupabaseService } from '../../services/supabase';
 import { RouterLink } from '@angular/router';
 
+
 interface Mensaje {
   id: string;
   nickname: string;
   mensaje: string;
+  archivo_url?: string;
+  archivo_tipo?: string;
   created_at: string;
 }
 
@@ -18,6 +21,7 @@ interface Mensaje {
   templateUrl: './chat.html',
   styleUrl: './chat.css'
 })
+
 export class ChatGlobal implements OnInit, OnDestroy {
   @ViewChild('mensajesContainer') mensajesContainer!: ElementRef;
   @ViewChild('mensajeInput') mensajeInput!: ElementRef;
@@ -114,6 +118,40 @@ export class ChatGlobal implements OnInit, OnDestroy {
     setTimeout(() => {
       this.mensajeInput.nativeElement.focus();
     }, 50);
+  }
+  async subirArchivo(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+  
+    this.cargando = true;
+    const extension = file.name.split('.').pop();
+    const nombre = `${Date.now()}.${extension}`;
+  
+    const { data, error } = await this.supabase.client.storage
+      .from('chat-archivos')
+      .upload(nombre, file);
+  
+    if (error) {
+      console.error('Error subiendo archivo:', error);
+      this.cargando = false;
+      return;
+    }
+  
+    const { data: urlData } = this.supabase.client.storage
+      .from('chat-archivos')
+      .getPublicUrl(nombre);
+  
+    await this.supabase.client
+      .from('chat_mensajes')
+      .insert({
+        nickname: this.nickname,
+        mensaje: '',
+        archivo_url: urlData.publicUrl,
+        archivo_tipo: file.type
+      });
+  
+    this.cargando = false;
+    this.cdr.detectChanges();
   }
   esMio(mensaje: Mensaje): boolean {
     return mensaje.nickname === this.nickname;
