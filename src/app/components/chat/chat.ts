@@ -217,28 +217,19 @@ export class ChatGlobal implements OnInit, OnDestroy {
     if (this.esAntonella && !this.usuarioSeleccionado) return;
     this.cargando = true;
   
-    const { error } = await this.supabase.client
+    const { error, data } = await this.supabase.client
       .from('chat_mensajes')
       .insert({
         nickname: this.nickname,
         mensaje: this.nuevoMensaje.trim(),
         destinatario: this.esAntonella ? this.usuarioSeleccionado : 'antonella'
-      });
+      })
+      .select();
   
-    if (error) {
-      this.errorEnvio = error.message;
-      this.cdr.detectChanges();
-    }
-  
+    this.errorEnvio = error ? error.message : `OK - nick:${this.nickname} dest:${this.usuarioSeleccionado}`;
     this.nuevoMensaje = '';
     this.cargando = false;
     this.cdr.detectChanges();
-  
-    setTimeout(() => {
-      if (this.elInputDelMensaje) {
-        this.elInputDelMensaje.nativeElement.focus();
-      }
-    }, 50);
   }
 
   async subirArchivo(event: any) {
