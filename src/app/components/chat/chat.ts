@@ -217,17 +217,23 @@ export class ChatGlobal implements OnInit, OnDestroy {
     if (this.esAntonella && !this.usuarioSeleccionado) return;
     this.cargando = true;
   
-    await this.supabase.client
+    const { error } = await this.supabase.client
       .from('chat_mensajes')
       .insert({
         nickname: this.nickname,
         mensaje: this.nuevoMensaje.trim(),
         destinatario: this.esAntonella ? this.usuarioSeleccionado : 'antonella'
       });
+  
+    if (error) {
+      this.errorEnvio = error.message;
+      this.cdr.detectChanges();
+    }
+  
     this.nuevoMensaje = '';
     this.cargando = false;
     this.cdr.detectChanges();
-
+  
     setTimeout(() => {
       if (this.elInputDelMensaje) {
         this.elInputDelMensaje.nativeElement.focus();

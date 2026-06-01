@@ -81,6 +81,10 @@
             </div>
           }
         </div>
+        
+        @if (errorEnvio) {
+          <p style="color:red; font-size:12px; text-align:center;">{{ errorEnvio }}</p>
+        }
 
         <div class="chat-input-container">
           <label class="chat-btn-adjuntar">
