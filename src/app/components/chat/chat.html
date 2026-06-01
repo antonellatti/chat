@@ -5,7 +5,7 @@
       <!-- Pantalla de nickname -->
       @if (!nicknameListo) {
         <div class="chat-nickname-screen">
-          <h2 class="chat-titulo">Chateemos <i class="ti ti-message-chatbot"></i></h2>
+          <h2 class="chat-titulo">Chat <i class="ti ti-message-chatbot"></i></h2>
           <input
             #nicknameInput class="chat-input"
             type="text"
@@ -26,7 +26,7 @@
         <div class="chat-header">
           <button class="chat-volver" (click)="volverNickname()">← Volver</button>
           <h2 class="chat-titulo">
-            Mi board 
+            Antonella
             <i class="ti ti-crystal-ball"></i>
           </h2>
           <span class="chat-nick-actual"><i class="ti ti-user"></i> {{ nickname }}</span>
@@ -57,7 +57,6 @@
           <h2 class="chat-titulo">Mensajes <i class="ti ti-mail"></i></h2>
           <span class="chat-nick-actual"><i class="ti ti-user"></i> {{ esAntonella ? usuarioSeleccionado : nickname }}</span>
         </div>
-        <p style="color:yellow; font-size:12px;">esAntonella: {{ esAntonella }} | usuario: {{ usuarioSeleccionado }} | nick guardado: {{ nickname }}</p>
 
         <div class="chat-mensajes" #mensajesContainer>
           @for (msg of mensajes; track msg.id) {
@@ -82,10 +81,6 @@
             </div>
           }
         </div>
-        
-        @if (errorEnvio) {
-          <p style="color:red; font-size:12px; text-align:center;">{{ errorEnvio }}</p>
-        }
 
         <div class="chat-input-container">
           <label class="chat-btn-adjuntar">
