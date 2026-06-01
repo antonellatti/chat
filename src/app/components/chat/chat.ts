@@ -41,7 +41,6 @@ export class ChatGlobal implements OnInit, OnDestroy {
     }
   }
   
-
   mensajes: Mensaje[] = [];
   nuevoMensaje = '';
   nickname = '';
@@ -52,6 +51,7 @@ export class ChatGlobal implements OnInit, OnDestroy {
   esAntonella = false;
   usuarioSeleccionado = '';
   usuarios: string[] = [];
+  errorEnvio = '';
 
   constructor(
     private supabase: SupabaseService,
