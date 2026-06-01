@@ -61,9 +61,10 @@ export class ChatGlobal implements OnInit, OnDestroy {
 
   async ngOnInit() {
     const guardado = sessionStorage.getItem('chat_nickname');
+  
     if (guardado) {
-      this.nickname = guardado;
-      this.esAntonella = guardado.toLowerCase() === 'antonella';
+      this.nickname = guardado.toLowerCase();
+      this.esAntonella = this.nickname === 'antonella';
       this.nicknameListo = true;
       await this.cargarMensajes();
       if (this.esAntonella) await this.cargarUsuarios();
@@ -72,10 +73,10 @@ export class ChatGlobal implements OnInit, OnDestroy {
   }
 
   async confirmarNickname() {
-    const nick = this.nicknameTemporal.trim();
+    const nick = this.nicknameTemporal.trim().toLowerCase();
     if (!nick) return;
-  
-    if (nick.toLowerCase() === 'antonella') {
+    
+    if (nick === 'antonella') {
       const password = prompt('Contraseña:');
       if (password !== 'putoelquelee') {
         alert('No sos Antonella, poné tu nombre!');
@@ -85,13 +86,12 @@ export class ChatGlobal implements OnInit, OnDestroy {
     this.mensajes = [];
     this.usuarioSeleccionado = '';
     this.nickname = nick;
-    this.esAntonella = nick.toLowerCase() === 'antonella';
+    this.esAntonella = nick === 'antonella';
     this.nicknameListo = true;
   
     sessionStorage.setItem('chat_nickname', nick);
   
     await this.cargarMensajes();
-  
     if (this.esAntonella) {
       await this.cargarUsuarios();
     }
