@@ -57,6 +57,7 @@
           <h2 class="chat-titulo">Mensajes <i class="ti ti-mail"></i></h2>
           <span class="chat-nick-actual"><i class="ti ti-user"></i> {{ esAntonella ? usuarioSeleccionado : nickname }}</span>
         </div>
+        <p style="color:yellow; font-size:12px;">esAntonella: {{ esAntonella }} | usuario: {{ usuarioSeleccionado }}</p>
 
         <div class="chat-mensajes" #mensajesContainer>
           @for (msg of mensajes; track msg.id) {
